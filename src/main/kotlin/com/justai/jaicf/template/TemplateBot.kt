@@ -7,6 +7,7 @@ import com.justai.jaicf.activator.regex.RegexActivator
 import com.justai.jaicf.channel.jaicp.logging.JaicpConversationLogger
 import com.justai.jaicf.logging.Slf4jConversationLogger
 import com.justai.jaicf.template.scenario.MainScenario
+import com.justai.jaicf.template.scenario.Trial02
 import java.util.*
 
 val accessToken: String = System.getenv("JAICP_API_TOKEN") ?: Properties().run {
@@ -19,7 +20,8 @@ private val cailaNLUSettings = CailaNLUSettings(
 )
 
 val templateBot = BotEngine(
-    model = MainScenario.model,
+    //model = MainScenario.model,
+    model = Trial02.model,
     conversationLoggers = arrayOf(
         JaicpConversationLogger(accessToken),
         Slf4jConversationLogger()
