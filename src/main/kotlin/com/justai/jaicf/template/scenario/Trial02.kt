@@ -20,6 +20,7 @@ object Trial02: Scenario() {
             }
             action {
                 reactions.run {
+                    item = 0
                     image("https://geekandsundry.com/wp-content/uploads/2016/06/image3.gif")
                     say("Cold Steel. A blinding neon light overhead. Once again you wake up the table of a street-doc")
 
@@ -38,7 +39,7 @@ object Trial02: Scenario() {
                     image("http://www.djfood.org/wp-content/uploads/2012/11/tumblr_me7ykg1Nvl1qavwd8.gif")
                     break1s
 //                    say("Where do you want to go?")
-                    val wohin = (1..2).shuffled().first()
+                    val wohin = (1..3).shuffled().first()
                     val wohin2 = "/start/"
                     val wohin3 = StringBuilder()
                     wohin3.append(wohin2).append(wohin)
@@ -149,12 +150,12 @@ object Trial02: Scenario() {
             }
         }
 
-        //
+        //MERCHANT ENCOUNTER
         state("/start/merch"){
             action{
                 reactions.run{
                     say("You duck away into a dark alley to quickly catch your breath. From behind you hear a raspy voice calling out")
-                    image("")
+                    image("https://i.pinimg.com/originals/f9/d1/65/f9d16599215e38586335d6878ff748c6.jpg")
                     say("Hello friend. I have the finest wares in all of the night streets. Maybe we can strike a deal?")
                     buttons(
                             "Yes",
@@ -200,6 +201,82 @@ object Trial02: Scenario() {
             }
         }
 
+        //BAR ENCOUNTER
+        state("/start/3") {
+
+            action {
+                reactions.run {
+                    say("You stay in the shadows not to raise suspicion, and duck through a small door.")
+                    image("https://worldofweirdthings.com/wp-content/uploads/retro_cyberpunk_bar_2500-1200x672.jpg")
+                    sayRandom(
+                            "The room is lit by a flickering neon light, and is filled with leather-clad patrons - you stumbled into a street gang bar.",
+                            "As your eyes readjust to the light you can see what once must have been a bustling nightclub, now reduced to a sorry state."
+                    )
+                    say("'You want something? Only synthenol on the menu here' the barkeeper asks as you sit down at the counter.")
+                }
+            }
+        }
+
+        state("/start/3/yes"){
+            activators{
+                intent("3yes")
+            }
+            action{
+                reactions.run{
+                    say("The barkeeper shoves a dirty glass with a milky liquid in it over the counter in your direction. Your mechanical arm reacts quick and you catch it before it can fall on the floor.")
+                    say("As you look around, you see a passed-out patron next to you. His hand lies on the counter, a small handgun under it. A dangerous situation, but if you could get the gun, you would increase your chances of survival by a lot.")
+
+                    buttons(
+                       "grab the gun",
+                       "leave"
+                    )
+                }
+            }
+        }
+
+        state("/start/3/yesfail"){
+            activators{
+                intent("3yesfail")
+            }
+            action{
+                reactions.run{
+                    say( "The risk is too great for the reward. You finish whatever passes as a drink and move back out on the streets.")
+                    go("/start/4")
+                }
+
+            }
+        }
+
+        state("/start/3/yessucc"){
+            activators{
+                intent("3yessucc")
+            }
+            action{
+                reactions.run{
+                    say("Your nimble fingers of metal grab the gun and carefully pocket them without waking up the drunk man. As a consolidation, you leave your 'drink' for him behind before moving out of the bar.")
+                item = 2
+                go("/start/4")
+                }
+            }
+        }
+
+        state("/start/3/no"){
+            activators{
+                intent("3no")
+            }
+            action{
+                reactions.run{
+                    sayRandom(
+                            "You know better than to try to get drunk on a run, and move back on the streets.",
+                            "You shake your head, running back out on the streets."
+                    )
+                    item = 0
+                    go("/start/4")
+                }
+            }
+        }
+
+        //FINAL ENCOUNTER
         state("/start/4") {
             action {
                 reactions.run{
@@ -224,7 +301,6 @@ object Trial02: Scenario() {
 
             }
         }
-
 
         state("/start/left") {
             activators{
